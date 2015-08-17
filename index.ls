@@ -1,4 +1,4 @@
-{filter, find, map, partition, reverse, sort-by} = require \prelude-ls
+{all, any, each, filter, find, is-type, keys, map, Obj, partition, reverse, sort-by} = require \prelude-ls
 
 # clamp :: Number -> Number -> Number
 clamp = (n, min, max) --> Math.max min, (Math.min max, n)
@@ -10,6 +10,31 @@ find-all = (text, search, offset) -->
         [] 
     else
         [offset + index] ++ (find-all text, search, (offset + index + search.length))
+
+# get :: a -> [String] -> b
+get = (object, [p, ...ps]) -->
+    if ps.length == 0
+        object[p] ? null
+    else
+        if typeof object[p] == \undefined
+            null
+        else
+            get object[p], ps
+
+# is-equal-to-object :: a -> b -> Boolean
+is-equal-to-object = (o1, o2) ->
+    return o1 == o2 if <[Boolan Number String]> |> any -> is-type it, o1
+    return false if (typeof o1 == \undefined || o1 == null) || (typeof o2 == \undefined || o2 == null)
+    return false if (typeof! o1) != (typeof! o2)
+    if typeof! o1 == \Array
+        return false if o1.length != o2.length
+        [0 til o1.length] |> all (index) -> o1[index] `is-equal-to-object` o2[index]
+    else
+        (keys o1) |> all (key) ->
+            if (is-type \Object, o1[key]) or (is-type \Array, o1[key])
+                o1[key] `is-equal-to-object` o2[key]
+            else
+                o1[key] == o2[key]
 
 # partition-string :: String -> String -> [[Int, Int, Bool]]
 partition-string = (text, search) -->
@@ -26,4 +51,44 @@ partition-string = (text, search) -->
     ((high ++ low) |> sort-by (.0)) ++
     (if last == text.length then [] else [[last, text.length, false]])
 
-module.exports = {clamp, find-all, partition-string}
+# mappend :: a -> [String] -> b -> (b -> b -> b) -> a (MUTATION)
+mappend = (object, path, next-value, combinator) -->
+    current = get object, path
+    set object, path, (if !!current then (combinator current, next-value) else next-value)
+
+# rextend :: a -> b -> c
+rextend = (a, b) -->
+
+    # return b if its not an object
+    btype = typeof! b
+    return b if any (== btype), <[Boolean Number String Function]>
+
+    # return b if a is null or undefined
+    return b if a is null or (\Undefined == typeof! a)
+
+    # return a if b is an empty object
+    bkeys = Obj.keys b
+    return a if bkeys.length == 0
+
+    # copy b's keys and values to a
+    bkeys |> each (key) ->
+        a[key] = (if (Obj.keys a[key]).length > 0 then {} <<< a[key] else a[key]) `rextend` b[key]
+        
+    a
+
+# set :: a -> [String] -> b -> a (MUTATION)
+set = (object, [p, ...ps], value) -->
+    if ps.length > 0
+        object[p] = object[p] ? {}
+        set object[p], ps, value
+    else
+        object[p] = value
+        object
+
+# transpose :: [[a]] -> [[a]]
+transpose = (arr) ->
+    keys arr.0
+        |> map (column) ->
+            arr |> map (row) -> row[column]
+
+module.exports = {clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose}
