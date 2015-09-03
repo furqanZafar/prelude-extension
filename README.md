@@ -18,6 +18,8 @@
 
 `transpose :: [[a]] -> [[a]]`
 
+`unwrap :: ([String] -> a -> b) -> Int -> c -> [b]`
+
 # Test
 
 `./test.sh`

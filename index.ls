@@ -1,4 +1,4 @@
-{all, any, each, filter, find, is-type, keys, map, Obj, partition, reverse, sort-by} = require \prelude-ls
+{all, any, concat-map, each, filter, find, is-type, keys, map, Obj, obj-to-pairs, partition, reverse, sort-by} = require \prelude-ls
 
 # clamp :: Number -> Number -> Number
 clamp = (n, min, max) --> Math.max min, (Math.min max, n)
@@ -22,7 +22,7 @@ get = (object, [p, ...ps]) -->
             get object[p], ps
 
 # is-equal-to-object :: a -> b -> Boolean
-is-equal-to-object = (o1, o2) ->
+is-equal-to-object = (o1, o2) -->
     return o1 == o2 if <[Boolan Number String]> |> any -> is-type it, o1
     return false if (typeof o1 == \undefined || o1 == null) || (typeof o2 == \undefined || o2 == null)
     return false if (typeof! o1) != (typeof! o2)
@@ -91,4 +91,12 @@ transpose = (arr) ->
         |> map (column) ->
             arr |> map (row) -> row[column]
 
-module.exports = {clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose}
+# unwrap :: ([String] -> a -> b) -> Int -> c -> [b]
+unwrap = (f, depth, object) --> 
+    r = (f, ks, i, j, object) -->
+        object
+            |> obj-to-pairs
+            |> concat-map ([k, v]) -> if i < j then r f, (ks ++ k), (i + 1), j, v else f (ks ++ k), v
+    r f, [], 0, depth, object
+
+module.exports = {clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap}

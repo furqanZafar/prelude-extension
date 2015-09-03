@@ -1,5 +1,6 @@
 assert = require \assert
-{clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose} = require \../index
+{keys} = require \prelude-ls
+{clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap} = require \../index
 
 describe "prelude-extension", ->
 
@@ -70,3 +71,28 @@ describe "prelude-extension", ->
 
     specify "transpose", ->
         assert (transpose [[1,2], [3,4]]) `is-equal-to-object` [[1,3], [2,4]]
+
+    specify "unwrap", ->
+        stats = 
+            \17031 :
+                \com.test.app1 :
+                    \football :
+                        visits: 100
+                        subs: 5
+                \com.test.app2 :
+                    \selfie :
+                        visits: 200
+                        subs: 20
+            \16013 :
+                \com.test.app3 :
+                    \halloween : 
+                        visits: 150
+                        subs: 12
+
+        result = stats |> unwrap do 
+            ([campaign, app, page], {visits, subs}) -> {campaign, app, page, visits, subs}
+            2
+
+        assert result.length == 3
+        assert (keys result.0).length == 5
+        assert (keys result.1).length == 5
