@@ -36,6 +36,8 @@ describe "prelude-extension", ->
         o1 = [1,2,3]
         o2 = [1,"2",3]
         assert !(o1 `is-equal-to-object` o2)
+        assert (null `is-equal-to-object` null)
+        assert (undefined `is-equal-to-object` undefined)
 
     specify "mappend", ->
         stats = {users: {"40": {visits: 2}}}
