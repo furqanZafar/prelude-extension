@@ -1,10 +1,12 @@
 {
   "name": "prelude-extension",
-  "version": "0.0.7x",
+  "version": "0.0.8",
   "description": "prelude-extension",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/index.ls --compilers ls:livescript",
+    "coverage": "gulp coverage",
+    "coveralls": "gulp coverage  && cat coverage/lcov.info | coveralls"
   },
   "author": "Furqan Zafar",
   "license": "ISC",
@@ -14,5 +16,13 @@
   },
   "dependencies": {
     "prelude-ls": "^1.1.2"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.6",
+    "gulp": "^3.9.0",
+    "gulp-livescript": "^3.0.0",
+    "gulp-livescript-istanbul": "0.0.1",
+    "gulp-mocha": "^2.2.0",
+    "livescript": "^1.4.0"
   }
 }

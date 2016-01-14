@@ -24,7 +24,7 @@ get = (object, [p, ...ps]) -->
 # is-equal-to-object :: a -> b -> Boolean
 is-equal-to-object = (o1, o2) -->
     return false if (typeof! o1) != (typeof! o2)
-    return o1 == o2 if <[Boolan Number String undefined]> |> any -> is-type it, o1
+    return o1 == o2 if <[Boolean Number String undefined]> |> any -> is-type it, o1
     if typeof! o1 == \Array
         return false if o1.length != o2.length
         [0 til o1.length] |> all (index) -> o1[index] `is-equal-to-object` o2[index]

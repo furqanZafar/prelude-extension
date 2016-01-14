@@ -1,6 +1,6 @@
 assert = require \assert
 {keys} = require \prelude-ls
-{clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap} = require \../index
+{clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap} = require \../index.ls
 
 describe "prelude-extension", ->
 
@@ -38,6 +38,9 @@ describe "prelude-extension", ->
         assert !(o1 `is-equal-to-object` o2)
         assert (null `is-equal-to-object` null)
         assert (undefined `is-equal-to-object` undefined)
+        assert true `is-equal-to-object` true
+        assert false `is-equal-to-object` false
+        assert !(false `is-equal-to-object` true)
 
     specify "mappend", ->
         stats = {users: {"40": {visits: 2}}}

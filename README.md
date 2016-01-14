@@ -1,3 +1,9 @@
+Prelude Extension
+=============================================
+
+[![Build Status](https://travis-ci.org/Pipend/pipe-storyboard.svg?branch=master)](https://travis-ci.org/Pipend/pipe-storyboard)
+[![Coverage Status](https://coveralls.io/repos/furqanZafar/prelude-extension/badge.svg?branch=master&service=github)](https://coveralls.io/github/furqanZafar/prelude-extension?branch=master)
+
 # Functions
 
 `clamp :: Number -> Number -> Number`
@@ -20,6 +26,8 @@
 
 `unwrap :: ([String] -> a -> b) -> Int -> c -> [b]`
 
-# Test
+# Development
 
-`./test.sh`
+* run `gulp` to watch and build changes to `index.ls`
+* `npm test` for running unit tests
+* `npm run coverage` for running unit tests with code coverage
