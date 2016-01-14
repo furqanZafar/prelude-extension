@@ -1,7 +1,7 @@
 Prelude Extension
 =============================================
 
-[![Build Status](https://travis-ci.org/Pipend/pipe-storyboard.svg?branch=master)](https://travis-ci.org/Pipend/pipe-storyboard)
+[![Build Status](https://travis-ci.org/furqanZafar/prelude-extension.svg?branch=master)](https://travis-ci.org/furqanZafar/prelude-extension)
 [![Coverage Status](https://coveralls.io/repos/furqanZafar/prelude-extension/badge.svg?branch=master&service=github)](https://coveralls.io/github/furqanZafar/prelude-extension?branch=master)
 
 # Functions
