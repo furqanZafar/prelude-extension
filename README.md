@@ -4,8 +4,10 @@ Prelude Extension
 [![Build Status](https://travis-ci.org/furqanZafar/prelude-extension.svg?branch=master)](https://travis-ci.org/furqanZafar/prelude-extension)
 [![Coverage Status](https://coveralls.io/repos/furqanZafar/prelude-extension/badge.svg?branch=master&service=github)](https://coveralls.io/github/furqanZafar/prelude-extension?branch=master)
 
-# Functions
+# Install
+`npm install prelude-extension`
 
+# Functions
 `clamp :: Number -> Number -> Number`
 
 `find-all :: String -> String -> Int -> [Int]`
@@ -27,7 +29,6 @@ Prelude Extension
 `unwrap :: ([String] -> a -> b) -> Int -> c -> [b]`
 
 # Development
-
 * run `gulp` to watch and build changes to `index.ls`
 * `npm test` for running unit tests
 * `npm run coverage` for running unit tests with code coverage
