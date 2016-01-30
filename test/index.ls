@@ -1,6 +1,8 @@
 assert = require \assert
 {keys} = require \prelude-ls
-{clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap} = require \../index.ls
+{
+    clamp, find-all, get, is-empty-object, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap
+} = require \../index.ls
 
 describe "prelude-extension", ->
 
@@ -19,6 +21,11 @@ describe "prelude-extension", ->
     specify "get", ->
         population = asia: china: singapore: 539900
         assert (get population, <[asia china singapore]>) == 539900
+
+    specify "is-empty-object", ->
+        assert true == is-empty-object {}
+        assert true == is-empty-object {x: undefined, y: undefined}
+        assert false == is-empty-object {x: undefined, y: 1}
 
     specify "is-equal-to-object", ->
         o1 = {a: {b: 1, c: 1}, d: 2}

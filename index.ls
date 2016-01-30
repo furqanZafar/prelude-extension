@@ -21,6 +21,14 @@ get = (object, [p, ...ps]) -->
         else
             get object[p], ps
 
+# is-empty-object :: object -> Boolean
+is-empty-object = (o) ->
+    number-of-keys = o 
+        |> Obj.filter -> !!it
+        |> keys
+        |> (.length)
+    number-of-keys == 0
+
 # is-equal-to-object :: a -> b -> Boolean
 is-equal-to-object = (o1, o2) -->
     return false if (typeof! o1) != (typeof! o2)
@@ -98,4 +106,6 @@ unwrap = (f, depth, object) -->
             |> concat-map ([k, v]) -> if i < j then r f, (ks ++ k), (i + 1), j, v else f (ks ++ k), v
     r f, [], 0, depth, object
 
-module.exports = {clamp, find-all, get, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap}
+module.exports = {
+    clamp, find-all, get, is-empty-object, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap
+}
