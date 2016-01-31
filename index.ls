@@ -31,17 +31,28 @@ is-empty-object = (o) ->
 
 # is-equal-to-object :: a -> b -> Boolean
 is-equal-to-object = (o1, o2) -->
+
+    # type mismatch
     return false if (typeof! o1) != (typeof! o2)
+
+    # use `equals to` operator for primitive types
     return o1 == o2 if <[Boolean Number String undefined]> |> any -> is-type it, o1
+
     if typeof! o1 == \Array
+
+        # ensure that the arrays are of same length
         return false if o1.length != o2.length
+
+        # compare each item in the array
         [0 til o1.length] |> all (index) -> o1[index] `is-equal-to-object` o2[index]
+
     else
-        (keys o1) |> all (key) ->
-            if (is-type \Object, o1[key]) or (is-type \Array, o1[key])
-                o1[key] `is-equal-to-object` o2[key]
-            else
-                o1[key] == o2[key]
+
+        # ensure that the objects have the same number of keys
+        return false if keys o1 .length != keys o2 .length 
+
+        # compare each property in the object
+        (keys o1) |> all (key) -> o1[key] `is-equal-to-object` o2[key]
 
 # partition-string :: String -> String -> [[Int, Int, Bool]]
 partition-string = (text, search) -->
@@ -94,9 +105,10 @@ set = (object, [p, ...ps], value) -->
 
 # transpose :: [[a]] -> [[a]]
 transpose = (arr) ->
-    keys arr.0
-        |> map (column) ->
-            arr |> map (row) -> row[column]
+    arr.0
+    |> keys
+    |> map (column) ->
+        arr |> map (row) -> row[column]
 
 # unwrap :: ([String] -> a -> b) -> Int -> c -> [b]
 unwrap = (f, depth, object) --> 

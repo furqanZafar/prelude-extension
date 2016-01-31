@@ -1,6 +1,6 @@
 {
   "name": "prelude-extension",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "prelude-extension",
   "main": "index.js",
   "scripts": {

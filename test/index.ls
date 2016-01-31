@@ -48,6 +48,7 @@ describe "prelude-extension", ->
         assert true `is-equal-to-object` true
         assert false `is-equal-to-object` false
         assert !(false `is-equal-to-object` true)
+        assert false == ({x: 1, y: 1, z: 1} `is-equal-to-object` {x: 1, y: 1})
 
     specify "mappend", ->
         stats = {users: {"40": {visits: 2}}}
