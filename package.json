@@ -1,6 +1,6 @@
 {
   "name": "prelude-extension",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "prelude-extension",
   "main": "index.js",
   "scripts": {
@@ -18,11 +18,17 @@
     "prelude-ls": "^1.1.2"
   },
   "devDependencies": {
+    "browserify": "^13.0.0",
     "coveralls": "^2.11.6",
     "gulp": "^3.9.0",
+    "gulp-if": "^2.0.0",
     "gulp-livescript": "^3.0.0",
     "gulp-livescript-istanbul": "0.0.1",
     "gulp-mocha": "^2.2.0",
-    "livescript": "^1.4.0"
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "livescript": "^1.4.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
