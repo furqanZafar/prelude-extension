@@ -1,7 +1,7 @@
 {
   "name": "prelude-extension",
   "main": "dist/index.min.js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "homepage": "https://github.com/furqanZafar/prelude-extension",
   "authors": [
     "Furqan Zafar (Mac Pro) <fruzi89@gmail.com>"
