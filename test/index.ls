@@ -1,10 +1,16 @@
 assert = require \assert
 {keys} = require \prelude-ls
-{
-    clamp, find-all, get, is-empty-object, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap
-} = require \../index.ls
+
+# prelude-extension
+{batch, clamp, find-all, get, is-empty-object, is-equal-to-object, 
+mappend, partition-string, rextend, set, transpose, unwrap} = require \../index.ls
 
 describe "prelude-extension", ->
+
+    specify "batch", ->
+        result = batch 3, [0 til 10]
+        assert 4 == result.length
+        assert 1 == result[result.length - 1].length
 
     specify "clamp", ->
         assert (clamp 1.2, 0, 1) == 1

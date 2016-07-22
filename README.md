@@ -8,6 +8,8 @@ Prelude Extension
 `npm install prelude-extension`
 
 # Functions
+`batch :: Number -> [a] -> [[a]]`
+
 `clamp :: Number -> Number -> Number`
 
 `find-all :: String -> String -> Int -> [Int]`

@@ -1,9 +1,22 @@
-{all, any, concat-map, each, filter, find, is-type, keys, map, Obj, obj-to-pairs, partition, reverse, sort-by} = require \prelude-ls
+{all, any, concat-map, each, filter, find, fold, is-type, 
+keys, map, Obj, obj-to-pairs, partition, reverse, sort-by} = require \prelude-ls
 
-# clamp :: Number -> Number -> Number
+# :: Int -> [a] -> [[a]]
+batch = (size, items) -->
+     items |> fold do
+        (acc, item) ->
+            last-batch = acc[acc.length - 1]
+            if last-batch.length < size
+                last-batch.push item
+                acc
+            else
+                [] ++ acc ++ [[item]]
+        [[]]
+
+# :: Number -> Number -> Number
 clamp = (n, min, max) --> Math.max min, (Math.min max, n)
 
-# find-all :: String -> String -> Int -> [Int]
+# :: String -> String -> Int -> [Int]
 find-all = (text, search, offset) -->
     index = text .substr offset .index-of search
     if index == -1
@@ -11,7 +24,7 @@ find-all = (text, search, offset) -->
     else
         [offset + index] ++ (find-all text, search, (offset + index + search.length))
 
-# get :: a -> [String] -> b
+# :: a -> [String] -> b
 get = (object, [p, ...ps]) -->
     if ps.length == 0
         object[p] ? null
@@ -21,15 +34,14 @@ get = (object, [p, ...ps]) -->
         else
             get object[p], ps
 
-# is-empty-object :: object -> Boolean
-is-empty-object = (o) ->
-    number-of-keys = o 
+# :: object -> Boolean
+is-empty-object = (object) ->
+    0 == (object 
         |> Obj.filter -> !!it
         |> keys
-        |> (.length)
-    number-of-keys == 0
+        |> (.length))
 
-# is-equal-to-object :: a -> b -> Boolean
+# :: a -> b -> Boolean
 is-equal-to-object = (o1, o2) -->
 
     # type mismatch
@@ -54,7 +66,7 @@ is-equal-to-object = (o1, o2) -->
         # compare each property in the object
         (keys o1) |> all (key) -> o1[key] `is-equal-to-object` o2[key]
 
-# partition-string :: String -> String -> [[Int, Int, Bool]]
+# :: String -> String -> [[Int, Int, Bool]]
 partition-string = (text, search) -->
     return [[0, text.length]] if search.length == 0
     [first, ..., x]:indices = find-all text, search, 0
@@ -69,12 +81,12 @@ partition-string = (text, search) -->
     ((high ++ low) |> sort-by (.0)) ++
     (if last == text.length then [] else [[last, text.length, false]])
 
-# mappend :: a -> [String] -> b -> (b -> b -> b) -> a (MUTATION)
+# :: a -> [String] -> b -> (b -> b -> b) -> a (MUTATION)
 mappend = (object, path, next-value, combinator) -->
     current = get object, path
     set object, path, (if !!current then (combinator current, next-value) else next-value)
 
-# rextend :: a -> b -> c
+# :: a -> b -> c
 rextend = (a, b) -->
 
     # return b if its not an object
@@ -94,7 +106,7 @@ rextend = (a, b) -->
         
     a
 
-# set :: a -> [String] -> b -> a (MUTATION)
+# :: a -> [String] -> b -> a (MUTATION)
 set = (object, [p, ...ps], value) -->
     if ps.length > 0
         object[p] = object[p] ? {}
@@ -103,14 +115,14 @@ set = (object, [p, ...ps], value) -->
         object[p] = value
         object
 
-# transpose :: [[a]] -> [[a]]
+# :: [[a]] -> [[a]]
 transpose = (arr) ->
     arr.0
     |> keys
     |> map (column) ->
         arr |> map (row) -> row[column]
 
-# unwrap :: ([String] -> a -> b) -> Int -> c -> [b]
+# :: ([String] -> a -> b) -> Int -> c -> [b]
 unwrap = (f, depth, object) --> 
     r = (f, ks, i, j, object) -->
         object
@@ -119,5 +131,16 @@ unwrap = (f, depth, object) -->
     r f, [], 0, depth, object
 
 module.exports = {
-    clamp, find-all, get, is-empty-object, is-equal-to-object, mappend, partition-string, rextend, set, transpose, unwrap
+    batch
+    clamp
+    find-all
+    get
+    is-empty-object
+    is-equal-to-object
+    mappend
+    partition-string
+    rextend
+    set
+    transpose
+    unwrap
 }
